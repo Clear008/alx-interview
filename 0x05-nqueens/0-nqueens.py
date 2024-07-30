@@ -17,6 +17,7 @@ if int(sys.argv[1]) < 4:
 
 n = int(sys.argv[1])
 
+
 class Solution:
     def solveNQueens(self, n: int) -> List[List[str]]:
         def DFS(queens, xy_dif, xy_sum):
@@ -30,6 +31,7 @@ class Solution:
         result = []
         DFS([], [], [])
         return [["."*i + "Q" + "."*(n-i-1) for i in sol] for sol in result]
+
 
 solution = Solution()
 solutions = solution.solveNQueens(n)
