@@ -1,33 +1,30 @@
 #!/usr/bin/python3
 """ N queens """
-from typing import List
+import sys
 
+def is_safe(board, row, col):
+    """Check this column on upper side"""
+    for i in range(row):
+        if board[i] == col or \
+           board[i] - i == col - row or \
+           board[i] + i == col + row:
+            return False
+    return True
 
-class Solution:
-    def solveNQueens(self, n: int) -> List[List[str]]:
-        """ N queens function"""
-        cols = set()
-        diagpos = set()
-        diagneg = set()
+def solve_nqueens(N):
+    """ N queens function"""
+    def solve(board, row):
+        if row == N:
+            solutions.append(board[:])
+            return
+        for col in range(N):
+            if is_safe(board, row, col):
+                board[row] = col
+                solve(board, row + 1)
+                board[row] = -1
 
-        res = []
-        board = [['.'] * n for _ in range(n)]
+    solutions = []
+    board = [-1] * N
+    solve(board, 0)
+    return solutions
 
-        def backtrack(row):
-            if row == n:
-                res.append(["".join(row) for row in board])
-                return
-            for c in range(n):
-                if c not in cols and row + c not in diagpos and
-                row - c not in diagneg:
-                    board[row][c] = 'Q'
-                    cols.add(c)
-                    diagpos.add(row + c)
-                    diagneg.add(row - c)
-                    backtrack(row + 1)
-                    board[row][c] = '.'
-                    cols.remove(c)
-                    diagpos.remove(row + c)
-                    diagneg.remove(row - c)
-        backtrack(0)
-        return res
